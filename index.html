@@ -405,11 +405,11 @@
 </div>
 <script>
   // ──────────────────────────────────────────────
-  // 🔑 CONFIG
+  // 🔑 CONFIG (PUT YOUR TOKEN HERE)
   // ──────────────────────────────────────────────
-  const GITHUB_TOKEN = "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";
-  const OWNER = "tahirdgt27";
-  const REPO  = "purpose-site";
+  const GITHUB_TOKEN = "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";
+  const GITHUB_OWNER = "tahirdgt27";
+  const GITHUB_REPO  = "purpose-site";
   // ──────────────────────────────────────────────
 
   const form         = document.getElementById("purposeForm");
@@ -422,47 +422,48 @@
     statusEl.textContent = msg;
   }
 
-  // 🚀 Save answer as GitHub Issue
+  // ✅ NEW: Save answer as GitHub Issue
   async function saveAnswer(name, answer) {
     const displayName = name.trim() || "Anonymous";
 
-    const response = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${GITHUB_TOKEN}`,
-        Accept: "application/vnd.github+json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        title: `🧠 Purpose from ${displayName}`,
-        body: `
-**Name:** ${displayName}  
-**Date:** ${new Date().toISOString()}
+    const res = await fetch(
+      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${GITHUB_TOKEN}`,
+          Accept: "application/vnd.github+json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: `🧠 Purpose from ${displayName}`,
+          body: `
+Name: ${displayName}
+Date: ${new Date().toISOString()}
 
----
+------------------------------
 
 ${answer}
-        `,
-        labels: ["submission"]
-      })
-    });
+          `
+        })
+      }
+    );
 
-    const data = await response.json();
+    const data = await res.json();
 
-    if (!response.ok) {
+    if (!res.ok) {
       throw new Error(data.message || "GitHub API error");
     }
   }
 
-  // 📤 Form submission
+  // 📤 FORM SUBMIT
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const answer = document.getElementById("answer").value.trim();
     const name   = document.getElementById("name").value.trim();
 
-    // 🛡️ Basic validation
-    if (!answer || answer.length < 10) {
+    if (!answer || answer.length < 5) {
       setStatus("Write something meaningful 😄", "error");
       return;
     }
@@ -473,7 +474,7 @@ ${answer}
     try {
       await saveAnswer(name, answer);
 
-      setStatus("", "");
+      setStatus("");
       form.style.display = "none";
       successPanel.classList.add("visible");
 
