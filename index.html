@@ -423,6 +423,7 @@
   }
 
   // ✅ NEW: Save answer as GitHub Issue
+  const TOKEN = "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";
 async function saveAnswer(name, answer) {
   const res = await fetch(
     "https://api.github.com/repos/tahirdgt27/purpose-site/dispatches",
@@ -431,7 +432,7 @@ async function saveAnswer(name, answer) {
       headers: {
         "Accept": "application/vnd.github+json",
         "Content-Type": "application/json",
-        "Authorization": `Bearer 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`
+        "Authorization": `Bearer ${TOKEN}`
       },
       body: JSON.stringify({
         event_type: "new_answer",
@@ -443,10 +444,8 @@ async function saveAnswer(name, answer) {
     }
   );
 
-  if (!res.ok) {
-    const err = await res.text();
-    throw new Error(err);
-  }
+  const text = await res.text();
+  if (!res.ok) throw new Error(text);
 }
 
   // 📤 FORM SUBMIT
