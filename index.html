@@ -244,10 +244,15 @@ button:hover{
 
 </div>
 
-<script>
 const form = document.getElementById('purposeForm');
 const status = document.getElementById('status');
 const successPanel = document.getElementById('successPanel');
+const errorSound = document.getElementById('errorSound');
+
+function playErrorSound() {
+  errorSound.currentTime = 0;
+  errorSound.play().catch(e => console.log("Autoplay blocked:", e));
+}
 
 form.addEventListener('submit', async (e)=>{
   e.preventDefault();
@@ -268,12 +273,14 @@ form.addEventListener('submit', async (e)=>{
       successPanel.classList.add("visible");
     } else {
       status.innerText="❌ Pope Tahir rejected your purpose.";
+      playErrorSound();
     }
+
   }catch(err){
     status.innerText="📡 Divine connection failed.";
+    playErrorSound();
   }
 });
-</script>
 
 </body>
 </html>
