@@ -403,15 +403,13 @@
 
   <p class="footer">github pages · answers stored safely in this repository · no judgment zone</p>
 </div>
-
 <script>
   // ──────────────────────────────────────────────
-  // ★  YOUR CONFIG  ★
+  // 🔑 CONFIG
   // ──────────────────────────────────────────────
-  const GITHUB_TOKEN = "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";
-  const GITHUB_OWNER = "tahirdgt27";
-  const GITHUB_REPO  = "purpose-site";
-  const ANSWERS_FILE = "answers.txt";  // ✅ FIXED (was incorrectly a full URL before)
+  const GITHUB_TOKEN = "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";
+  const OWNER = "tahirdgt27";
+  const REPO  = "purpose-site";
   // ──────────────────────────────────────────────
 
   const form         = document.getElementById("purposeForm");
@@ -424,55 +422,61 @@
     statusEl.textContent = msg;
   }
 
-  async function getFileSHA() {
-    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${ANSWERS_FILE}`;
-    const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, Accept: "application/vnd.github+json" }
-    });
-    if (res.status === 404) return { sha: null, content: "" };
-    if (!res.ok) throw new Error("Could not read file: " + res.status);
-    const data = await res.json();
-    const decoded = atob(data.content.replace(/\n/g, ""));
-    return { sha: data.sha, content: decoded };
-  }
-
+  // 🚀 Save answer as GitHub Issue
   async function saveAnswer(name, answer) {
-    const { sha, content } = await getFileSHA();
-    const timestamp   = new Date().toISOString();
     const displayName = name.trim() || "Anonymous";
-    const separator   = "─".repeat(60);
-    const newEntry    = `\n${separator}\nDate:   ${timestamp}\nName:   ${displayName}\n\n${answer.trim()}\n`;
-    const encoded     = btoa(unescape(encodeURIComponent(content + newEntry)));
 
-    const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${ANSWERS_FILE}`;
-    const res = await fetch(url, {
-      method: "PUT",
+    const response = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/issues`, {
+      method: "POST",
       headers: {
         Authorization: `Bearer ${GITHUB_TOKEN}`,
         Accept: "application/vnd.github+json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        message: `New answer from ${displayName}`,
-        content: encoded,
-        ...(sha ? { sha } : {})
+        title: `🧠 Purpose from ${displayName}`,
+        body: `
+**Name:** ${displayName}  
+**Date:** ${new Date().toISOString()}
+
+---
+
+${answer}
+        `,
+        labels: ["submission"]
       })
     });
-    if (!res.ok) { const err = await res.json(); throw new Error(err.message || "GitHub API error"); }
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "GitHub API error");
+    }
   }
 
+  // 📤 Form submission
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
     const answer = document.getElementById("answer").value.trim();
     const name   = document.getElementById("name").value.trim();
-    if (!answer) return;
+
+    // 🛡️ Basic validation
+    if (!answer || answer.length < 10) {
+      setStatus("Write something meaningful 😄", "error");
+      return;
+    }
+
     submitBtn.disabled = true;
     setStatus("Launching into the void… 🛸", "loading");
+
     try {
       await saveAnswer(name, answer);
+
       setStatus("", "");
       form.style.display = "none";
       successPanel.classList.add("visible");
+
     } catch (err) {
       console.error(err);
       setStatus("Houston, we have a problem: " + err.message, "error");
