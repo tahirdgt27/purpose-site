@@ -429,8 +429,9 @@ async function saveAnswer(name, answer) {
     {
       method: "POST",
       headers: {
+        "Accept": "application/vnd.github+json",
         "Content-Type": "application/json",
-        Accept: "application/vnd.github+json"
+        "Authorization": `Bearer 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`
       },
       body: JSON.stringify({
         event_type: "new_answer",
@@ -442,7 +443,10 @@ async function saveAnswer(name, answer) {
     }
   );
 
-  if (!res.ok) throw new Error("Failed to send data");
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(err);
+  }
 }
 
   // 📤 FORM SUBMIT
