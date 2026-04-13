@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>What's Your Purpose?</title>
+<title>Purpose Judgment System</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Syne+Mono&display=swap" rel="stylesheet"/>
 
 <style>
-:root {
+:root{
   --bg:#0d0d0f;
   --surface:#141417;
   --border:#2a2a30;
@@ -18,33 +18,36 @@
   --muted:#6b6b78;
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
+*{margin:0;padding:0;box-sizing:border-box}
 
 body{
   background:var(--bg);
   color:var(--text);
   font-family:'Syne',sans-serif;
-  min-height:100vh;
   display:flex;
   justify-content:center;
   padding:4rem 1rem;
   overflow-x:hidden;
 }
 
+/* floating chaos */
 .float-emoji{
   position:fixed;
   font-size:2rem;
-  opacity:0.15;
-  animation: floaty 10s linear infinite;
+  opacity:0.12;
+  animation: floaty 12s linear infinite;
+  z-index:0;
 }
+
 @keyframes floaty{
-  0%{transform:translateY(100vh)}
-  100%{transform:translateY(-10vh)}
+  0%{transform:translateY(110vh) rotate(0deg)}
+  100%{transform:translateY(-10vh) rotate(360deg)}
 }
 
-.page{max-width:700px;z-index:2}
+.page{max-width:750px;z-index:2}
 
-.hero{text-align:center;margin-bottom:2.5rem}
+/* HERO */
+.hero{text-align:center;margin-bottom:2rem}
 
 .tag{
   font-family:'Syne Mono';
@@ -58,22 +61,60 @@ h1{font-size:3rem;font-weight:800}
 
 .subtitle{color:var(--muted);margin-top:1rem}
 
+/* POPE TAHIR BANNER */
 .banner{
   background:var(--surface);
   border:1px solid var(--border);
-  padding:0.8rem;
+  padding:1rem;
   margin:1.5rem 0;
   font-family:'Syne Mono';
-  color:var(--accent);
   text-align:center;
-  animation: pulse 2s infinite;
+  color:var(--accent);
+  animation:pulse 2s infinite;
 }
 
 @keyframes pulse{
   0%,100%{opacity:1}
-  50%{opacity:.6}
+  50%{opacity:.5}
 }
 
+/* MEMES */
+.meme-row{
+  display:flex;
+  gap:1rem;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-bottom:2rem;
+}
+
+.meme-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1rem;
+  width:150px;
+  text-align:center;
+  transition:.3s;
+}
+
+.meme-card:hover{
+  transform:scale(1.1) rotate(-2deg);
+  border-color:var(--accent);
+}
+
+.meme-card img{
+  width:80px;
+  height:80px;
+}
+
+.meme-card p{
+  font-family:'Syne Mono';
+  font-size:.65rem;
+  color:var(--muted);
+  margin-top:.5rem;
+}
+
+/* FORM */
 .form-card{
   background:var(--surface);
   border:1px solid var(--border);
@@ -95,6 +136,7 @@ input,textarea{
   color:var(--text);
   padding:.8rem;
   margin:1rem 0;
+  border-radius:6px;
 }
 
 button{
@@ -104,12 +146,14 @@ button{
   border:none;
   font-weight:800;
   cursor:pointer;
+  border-radius:6px;
 }
 
 button:hover{
   background:#f5d060;
 }
 
+/* success */
 .success-panel{
   display:none;
   text-align:center;
@@ -129,30 +173,58 @@ button:hover{
 
 <body>
 
+<!-- floating emojis -->
+<div class="float-emoji" style="left:10%">👽</div>
+<div class="float-emoji" style="left:25%">🪐</div>
+<div class="float-emoji" style="left:55%">🚀</div>
+<div class="float-emoji" style="left:80%">🐱</div>
+
 <div class="page">
 
   <div class="hero">
-    <div class="tag">⚡ judgment system active: POPE TAHIR</div>
-
+    <div class="tag">⚡ judged by POPE TAHIR</div>
     <h1>What is your <span class="yellow">purpose</span> in <span class="red">life?</span></h1>
-
-    <p class="subtitle">
-      No pressure. Even philosophers are still waiting for approval from Pope Tahir.
-    </p>
+    <p class="subtitle">Philosophers are still waiting for approval.</p>
   </div>
 
   <div class="banner">
-    🧠 Pope Tahir AI Verdict: “Your existence is currently being reviewed… please remain spiritually seated.”
+    😇 POPE TAHIR SYSTEM: “Your existence is being spiritually reviewed… please do not panic.”
+  </div>
+
+  <!-- MEMES BACK 😭 -->
+  <div class="meme-row">
+
+    <div class="meme-card">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f680.svg"/>
+      <p>launch your problems</p>
+    </div>
+
+    <div class="meme-card">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f47d.svg"/>
+      <p>alien is confused too</p>
+    </div>
+
+    <div class="meme-card">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg"/>
+      <p>cat disapproves</p>
+    </div>
+
+    <div class="meme-card">
+      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f914.svg"/>
+      <p>deep thinking... maybe too deep</p>
+    </div>
+
   </div>
 
   <div class="form-card">
+
     <form id="purposeForm">
 
       <label>Your Name</label>
-      <input type="text" name="name" placeholder="Chosen disciple of chaos">
+      <input type="text" name="name" placeholder="Disciple of chaos">
 
       <label>Your Answer</label>
-      <textarea name="answer" required placeholder="To eat, sleep, repeat, and occasionally overthink..."></textarea>
+      <textarea name="answer" required placeholder="To survive, thrive, and occasionally overthink everything..."></textarea>
 
       <button type="submit" id="submitBtn">🚀 Submit to Pope Tahir</button>
 
@@ -160,14 +232,16 @@ button:hover{
     </form>
 
     <div class="success-panel" id="successPanel">
-      <h2>😇 Approved by Pope Tahir</h2>
+      <h2>😇 Blessed by Pope Tahir</h2>
       <p style="color:var(--muted)">
-        Your purpose has been blessed and archived in the sacred scroll of “we’ll figure it out later.”
+        Your purpose has been accepted into the sacred archive of “we’ll deal with it later.”
       </p>
     </div>
+
   </div>
 
-  <p class="footer">powered by Pope Tahir • Formspree • divine confusion</p>
+  <p class="footer">powered by Pope Tahir • memes • existential confusion</p>
+
 </div>
 
 <script>
@@ -175,15 +249,15 @@ const form = document.getElementById('purposeForm');
 const status = document.getElementById('status');
 const successPanel = document.getElementById('successPanel');
 
-form.addEventListener('submit', async (e) => {
+form.addEventListener('submit', async (e)=>{
   e.preventDefault();
 
-  status.innerText = "😇 Pope Tahir is reviewing your existence...";
+  status.innerText = "😇 Pope Tahir is judging your existence...";
 
   const data = new FormData(form);
 
-  try {
-    const res = await fetch("https://formspree.io/f/xrergqea", {
+  try{
+    const res = await fetch("https://formspree.io/f/xrergqea",{
       method:'POST',
       body:data,
       headers:{'Accept':'application/json'}
@@ -193,10 +267,10 @@ form.addEventListener('submit', async (e) => {
       form.style.display="none";
       successPanel.classList.add("visible");
     } else {
-      status.innerText="❌ Pope Tahir rejected your purpose (try again)";
+      status.innerText="❌ Pope Tahir rejected your purpose.";
     }
-  } catch(err){
-    status.innerText="📡 Divine connection failed. Pope Tahir is offline.";
+  }catch(err){
+    status.innerText="📡 Divine connection failed.";
   }
 });
 </script>
