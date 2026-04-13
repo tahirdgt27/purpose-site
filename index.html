@@ -31,17 +31,15 @@ body{
   overflow-x:hidden;
 }
 
-/* floating emoji chaos */
 .float-emoji{
   position:fixed;
   font-size:2rem;
   opacity:0.15;
   animation: floaty 10s linear infinite;
-  z-index:0;
 }
 @keyframes floaty{
-  0%{transform:translateY(100vh) rotate(0)}
-  100%{transform:translateY(-10vh) rotate(360deg)}
+  0%{transform:translateY(100vh)}
+  100%{transform:translateY(-10vh)}
 }
 
 .page{max-width:700px;z-index:2}
@@ -60,7 +58,6 @@ h1{font-size:3rem;font-weight:800}
 
 .subtitle{color:var(--muted);margin-top:1rem}
 
-/* FUNNY BANNER */
 .banner{
   background:var(--surface);
   border:1px solid var(--border);
@@ -71,39 +68,12 @@ h1{font-size:3rem;font-weight:800}
   text-align:center;
   animation: pulse 2s infinite;
 }
+
 @keyframes pulse{
   0%,100%{opacity:1}
   50%{opacity:.6}
 }
 
-/* meme cards */
-.meme-row{
-  display:flex;
-  gap:1rem;
-  justify-content:center;
-  flex-wrap:wrap;
-  margin-bottom:2rem;
-}
-
-.meme-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:1rem;
-  width:140px;
-  text-align:center;
-  transition:.3s;
-}
-.meme-card:hover{
-  transform:scale(1.1) rotate(2deg);
-}
-
-.meme-card img{
-  width:80px;
-  height:80px;
-}
-
-/* form */
 .form-card{
   background:var(--surface);
   border:1px solid var(--border);
@@ -140,11 +110,11 @@ button:hover{
   background:#f5d060;
 }
 
-/* success */
 .success-panel{
   display:none;
   text-align:center;
 }
+
 .success-panel.visible{display:block}
 
 .footer{
@@ -159,63 +129,45 @@ button:hover{
 
 <body>
 
-<!-- floating chaos -->
-<div class="float-emoji" style="left:10%">👽</div>
-<div class="float-emoji" style="left:30%">🪐</div>
-<div class="float-emoji" style="left:60%">🐱</div>
-<div class="float-emoji" style="left:80%">🚀</div>
-
 <div class="page">
 
   <div class="hero">
-    <div class="tag">⚡ universe is buffering your meaning...</div>
+    <div class="tag">⚡ judgment system active: POPE TAHIR</div>
+
     <h1>What is your <span class="yellow">purpose</span> in <span class="red">life?</span></h1>
-    <p class="subtitle">No pressure. Even Google doesn’t know sometimes.</p>
+
+    <p class="subtitle">
+      No pressure. Even philosophers are still waiting for approval from Pope Tahir.
+    </p>
   </div>
 
   <div class="banner">
-    🧠 Universe AI Verdict: “Still loading meaning... please eat something while waiting.”
+    🧠 Pope Tahir AI Verdict: “Your existence is currently being reviewed… please remain spiritually seated.”
   </div>
 
-  <div class="meme-row">
-    <div class="meme-card">
-      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f680.svg"/>
-      <p>launch your dreams</p>
-    </div>
-
-    <div class="meme-card">
-      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f47d.svg"/>
-      <p>alien approval pending</p>
-    </div>
-
-    <div class="meme-card">
-      <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f431.svg"/>
-      <p>cat is judging you</p>
-    </div>
-  </div>
-
-  <div class="form-card" id="formContainer">
+  <div class="form-card">
     <form id="purposeForm">
 
       <label>Your Name</label>
-      <input type="text" name="name" placeholder="Lost astronaut">
+      <input type="text" name="name" placeholder="Chosen disciple of chaos">
 
       <label>Your Answer</label>
-      <textarea name="answer" required placeholder="To vibe, survive, and occasionally thrive..."></textarea>
+      <textarea name="answer" required placeholder="To eat, sleep, repeat, and occasionally overthink..."></textarea>
 
-      <button type="submit" id="submitBtn">🚀 Send to Universe</button>
-      <p id="status" style="color:var(--muted);text-align:center;margin-top:1rem;"></p>
+      <button type="submit" id="submitBtn">🚀 Submit to Pope Tahir</button>
+
+      <p id="status" style="text-align:center;margin-top:1rem;color:var(--muted);"></p>
     </form>
 
     <div class="success-panel" id="successPanel">
-      <h2>🌌 Submission received by cosmic interns</h2>
+      <h2>😇 Approved by Pope Tahir</h2>
       <p style="color:var(--muted)">
-        Your purpose has been archived in the “we’ll figure it out later” folder.
+        Your purpose has been blessed and archived in the sacred scroll of “we’ll figure it out later.”
       </p>
     </div>
   </div>
 
-  <p class="footer">powered by confusion • formspree • existential bugs included</p>
+  <p class="footer">powered by Pope Tahir • Formspree • divine confusion</p>
 </div>
 
 <script>
@@ -226,7 +178,7 @@ const successPanel = document.getElementById('successPanel');
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  status.innerText = "🧠 AI is judging your purpose...";
+  status.innerText = "😇 Pope Tahir is reviewing your existence...";
 
   const data = new FormData(form);
 
@@ -241,10 +193,10 @@ form.addEventListener('submit', async (e) => {
       form.style.display="none";
       successPanel.classList.add("visible");
     } else {
-      status.innerText="Universe rejected your submission 😭";
+      status.innerText="❌ Pope Tahir rejected your purpose (try again)";
     }
   } catch(err){
-    status.innerText="Cosmic WiFi disconnected 🌌";
+    status.innerText="📡 Divine connection failed. Pope Tahir is offline.";
   }
 });
 </script>
