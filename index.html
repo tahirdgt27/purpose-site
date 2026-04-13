@@ -423,38 +423,27 @@
   }
 
   // ✅ NEW: Save answer as GitHub Issue
-  async function saveAnswer(name, answer) {
-    const displayName = name.trim() || "Anonymous";
-
-    const res = await fetch(
-      `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/issues`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${GITHUB_TOKEN}`,
-          Accept: "application/vnd.github+json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          title: `🧠 Purpose from ${displayName}`,
-          body: `
-Name: ${displayName}
-Date: ${new Date().toISOString()}
-
-------------------------------
-
-${answer}
-          `
-        })
-      }
-    );
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.message || "GitHub API error");
+async function saveAnswer(name, answer) {
+  const res = await fetch(
+    "https://api.github.com/repos/tahirdgt27/purpose-site/dispatches",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/vnd.github+json"
+      },
+      body: JSON.stringify({
+        event_type: "new_answer",
+        client_payload: {
+          name: name || "Anonymous",
+          answer: answer
+        }
+      })
     }
-  }
+  );
+
+  if (!res.ok) throw new Error("Failed to send data");
+}
 
   // 📤 FORM SUBMIT
   form.addEventListener("submit", async (e) => {
