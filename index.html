@@ -4,311 +4,419 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>What's Your Purpose?</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Syne+Mono&display=swap" rel="stylesheet"/>
   <style>
-    /* ── CONFIG: fill these in ── */
-    /* See README / guide below   */
-
     :root {
-      --ink:    #1a1612;
-      --paper:  #f5f0e8;
-      --accent: #8b4a2b;
-      --muted:  #9e9589;
-      --line:   #d6cfc3;
+      --bg:      #0d0d0f;
+      --surface: #141417;
+      --border:  #2a2a30;
+      --accent:  #f0c040;
+      --accent2: #e05c3a;
+      --text:    #e8e6e0;
+      --muted:   #6b6b78;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { font-size: 16px; }
-
     body {
-      background: var(--paper);
-      color: var(--ink);
-      font-family: 'Cormorant Garamond', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 3rem 1.5rem;
+      padding: 4rem 1.5rem 6rem;
       position: relative;
       overflow-x: hidden;
     }
-
-    /* grain texture */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      position: fixed; inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 10% 20%, #fff 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 60%, #fff 0%, transparent 100%),
+        radial-gradient(1px 1px at 50% 10%, #fff 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 80%, #fff 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 35%, #fff 0%, transparent 100%),
+        radial-gradient(1px 1px at 20% 85%, #fff 0%, transparent 100%),
+        radial-gradient(1px 1px at 60% 50%, #fff 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 40% 30%, rgba(240,192,64,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 90% 70%, #fff 0%, transparent 100%),
+        radial-gradient(1px 1px at 15% 45%, #fff 0%, transparent 100%);
+      opacity: 0.35;
       pointer-events: none;
       z-index: 0;
     }
-
-    /* decorative rule */
-    body::after {
-      content: '';
-      position: fixed;
-      top: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom, transparent, var(--accent));
-      opacity: 0.5;
-    }
-
-    .wrapper {
+    .page {
       position: relative;
       z-index: 1;
       width: 100%;
-      max-width: 640px;
-      animation: fadeUp 1.1s cubic-bezier(0.16,1,0.3,1) both;
+      max-width: 660px;
     }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
+    .hero {
+      text-align: center;
+      margin-bottom: 3.5rem;
+      animation: fadeDown 0.9s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
-    .eyebrow {
-      font-family: 'DM Mono', monospace;
+    .astronaut-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    .astronaut {
+      animation: float 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px rgba(240,192,64,0.25));
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50%       { transform: translateY(-14px) rotate(2deg); }
+    }
+    .tag {
+      display: inline-block;
+      font-family: 'Syne Mono', monospace;
       font-size: 0.68rem;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 2rem;
-      opacity: 0.85;
+      border: 1px solid rgba(240,192,64,0.3);
+      padding: 0.3rem 0.8rem;
+      border-radius: 2px;
+      margin-bottom: 1.4rem;
     }
-
     h1 {
-      font-size: clamp(2.4rem, 6vw, 3.6rem);
-      font-weight: 300;
-      line-height: 1.15;
-      letter-spacing: -0.01em;
-      margin-bottom: 0.4rem;
+      font-size: clamp(2.2rem, 7vw, 4rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
     }
-
-    h1 em {
-      font-style: italic;
-      color: var(--accent);
-    }
-
+    h1 .yellow { color: var(--accent); }
+    h1 .red    { color: var(--accent2); }
     .subtitle {
-      font-size: 1.05rem;
+      font-size: 1rem;
       color: var(--muted);
-      font-style: italic;
-      margin-bottom: 3rem;
-      line-height: 1.6;
-    }
-
-    .divider {
-      width: 48px;
-      height: 1px;
-      background: var(--accent);
-      opacity: 0.5;
-      margin: 0 0 3rem 0;
-    }
-
-    label {
-      display: block;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.6rem;
-    }
-
-    input[type="text"],
-    textarea {
-      width: 100%;
-      background: transparent;
-      border: none;
-      border-bottom: 1.5px solid var(--line);
-      color: var(--ink);
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 1.15rem;
-      padding: 0.5rem 0 0.75rem;
-      outline: none;
-      resize: none;
-      transition: border-color 0.3s ease;
-      appearance: none;
-      -webkit-appearance: none;
-      border-radius: 0;
-    }
-
-    input[type="text"]::placeholder,
-    textarea::placeholder {
-      color: var(--muted);
-      opacity: 0.55;
-      font-style: italic;
-    }
-
-    input[type="text"]:focus,
-    textarea:focus {
-      border-bottom-color: var(--accent);
-    }
-
-    textarea {
-      min-height: 160px;
       line-height: 1.7;
+      max-width: 440px;
+      margin: 0 auto;
     }
-
-    .field {
-      margin-bottom: 2.2rem;
+    .funny-row {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      animation: fadeUp 1s 0.2s cubic-bezier(0.16,1,0.3,1) both;
     }
-
-    .name-row {
-      display: grid;
-      grid-template-columns: 1fr;
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-
-    button {
-      margin-top: 0.5rem;
-      display: inline-flex;
+    .funny-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.8rem;
+      text-align: center;
+      width: 130px;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+      cursor: default;
+    }
+    .funny-card:hover {
+      transform: translateY(-4px) rotate(1deg);
+      border-color: var(--accent);
+    }
+    .funny-card svg { display: block; margin: 0 auto 0.5rem; }
+    .funny-card p {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+      animation: fadeUp 1s 0.35s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .form-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1.8rem;
+      display: flex;
       align-items: center;
       gap: 0.6rem;
-      background: var(--ink);
-      color: var(--paper);
-      border: none;
-      padding: 0.85rem 2rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
+    }
+    .form-title .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.2; }
+    }
+    label {
+      display: block;
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.68rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.25s ease, transform 0.15s ease;
+      color: var(--muted);
+      margin-bottom: 0.55rem;
     }
-
-    button:hover:not(:disabled) {
-      background: var(--accent);
-      transform: translateY(-1px);
+    input[type="text"], textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      padding: 0.8rem 1rem;
+      outline: none;
+      resize: vertical;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
     }
-
-    button:active { transform: translateY(0); }
-
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .arrow {
-      display: inline-block;
-      transition: transform 0.2s ease;
-    }
-    button:hover:not(:disabled) .arrow { transform: translateX(4px); }
-
-    /* status messages */
-    .status {
-      margin-top: 1.5rem;
-      font-size: 0.9rem;
+    input[type="text"]::placeholder, textarea::placeholder {
+      color: var(--muted);
       font-style: italic;
-      min-height: 1.4em;
-      transition: opacity 0.4s ease;
+      font-size: 0.92rem;
     }
-    .status.success { color: #4a7c59; }
-    .status.error   { color: #b5401e; }
+    input[type="text"]:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(240,192,64,0.1);
+    }
+    textarea { min-height: 150px; line-height: 1.7; }
+    .field { margin-bottom: 1.8rem; }
+    .char-hint {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--muted);
+      text-align: right;
+      margin-top: 0.35rem;
+    }
+    button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      border-radius: 6px;
+      padding: 0.95rem 2rem;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    }
+    button:hover:not(:disabled) {
+      background: #f5d060;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(240,192,64,0.25);
+    }
+    button:active { transform: translateY(0); }
+    button:disabled { opacity: 0.45; cursor: not-allowed; }
+    .status {
+      margin-top: 1rem;
+      font-size: 0.88rem;
+      font-style: italic;
+      text-align: center;
+      min-height: 1.4em;
+    }
     .status.loading { color: var(--muted); }
-
-    /* success state */
+    .status.error   { color: var(--accent2); }
     .success-panel {
       display: none;
-      padding: 2rem 0;
-      animation: fadeUp 0.6s ease both;
+      text-align: center;
+      padding: 3rem 1rem;
+      animation: fadeUp 0.7s ease both;
     }
     .success-panel.visible { display: block; }
-
-    .success-panel h2 {
-      font-size: 2rem;
-      font-weight: 300;
-      font-style: italic;
-      margin-bottom: 0.75rem;
+    .success-panel .big-emoji {
+      font-size: 4rem;
+      margin-bottom: 1.2rem;
+      display: block;
+      animation: spin-in 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
     }
-
-    .success-panel p {
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.6;
+    @keyframes spin-in {
+      from { transform: scale(0) rotate(-180deg); opacity: 0; }
+      to   { transform: scale(1) rotate(0deg); opacity: 1; }
     }
-
+    .success-panel h2 { font-size: 2rem; font-weight: 800; margin-bottom: 0.6rem; }
+    .success-panel h2 span { color: var(--accent); }
+    .success-panel p { color: var(--muted); font-size: 0.95rem; line-height: 1.7; }
     .footer {
-      margin-top: 5rem;
-      font-family: 'DM Mono', monospace;
+      margin-top: 4rem;
+      font-family: 'Syne Mono', monospace;
       font-size: 0.62rem;
       letter-spacing: 0.1em;
       color: var(--muted);
-      opacity: 0.5;
+      opacity: 0.4;
       text-align: center;
     }
   </style>
 </head>
 <body>
+<div class="page">
 
-<div class="wrapper">
-
-  <p class="eyebrow">A question worth asking</p>
-
-  <h1>What's your <em>purpose</em><br>in life?</h1>
-  <p class="subtitle">Take your time. There are no wrong answers here.</p>
-
-  <div class="divider"></div>
-
-  <form id="purposeForm">
-
-    <div class="field">
-      <label for="answer">Your answer</label>
-      <textarea
-        id="answer"
-        name="answer"
-        placeholder="Write as much or as little as you'd like…"
-        rows="7"
-        required
-      ></textarea>
+  <div class="hero">
+    <div class="astronaut-wrap">
+      <svg class="astronaut" width="110" height="130" viewBox="0 0 110 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="55" cy="42" r="30" fill="rgba(240,192,64,0.06)"/>
+        <rect x="30" y="68" width="50" height="44" rx="14" fill="#2a2a35"/>
+        <rect x="30" y="68" width="50" height="44" rx="14" stroke="#3a3a48" stroke-width="1.5"/>
+        <rect x="42" y="80" width="26" height="16" rx="4" fill="#1a1a22" stroke="#f0c040" stroke-width="1"/>
+        <circle cx="55" cy="88" r="4" fill="#f0c040" opacity="0.8"/>
+        <rect x="13" y="70" width="18" height="28" rx="9" fill="#2a2a35" stroke="#3a3a48" stroke-width="1.5"/>
+        <circle cx="22" cy="99" r="6" fill="#1e1e28" stroke="#3a3a48" stroke-width="1.5"/>
+        <rect x="79" y="70" width="18" height="28" rx="9" fill="#2a2a35" stroke="#3a3a48" stroke-width="1.5"/>
+        <circle cx="88" cy="99" r="6" fill="#1e1e28" stroke="#3a3a48" stroke-width="1.5"/>
+        <rect x="35" y="109" width="16" height="18" rx="8" fill="#2a2a35" stroke="#3a3a48" stroke-width="1.5"/>
+        <rect x="59" y="109" width="16" height="18" rx="8" fill="#2a2a35" stroke="#3a3a48" stroke-width="1.5"/>
+        <circle cx="55" cy="40" r="26" fill="#222230" stroke="#3a3a48" stroke-width="2"/>
+        <ellipse cx="55" cy="40" rx="18" ry="17" fill="#0d1a2e"/>
+        <ellipse cx="47" cy="32" rx="6" ry="4" fill="white" opacity="0.07"/>
+        <circle cx="49" cy="38" r="2.5" fill="#f0c040"/>
+        <circle cx="61" cy="38" r="2.5" fill="#f0c040"/>
+        <path d="M48 47 Q55 43 62 47" stroke="#f0c040" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <text x="76" y="18" font-family="Syne" font-weight="800" font-size="18" fill="#f0c040" opacity="0.9">?</text>
+        <circle cx="18" cy="50" r="1.5" fill="#f0c040" opacity="0.5"/>
+        <circle cx="95" cy="30" r="1" fill="white" opacity="0.6"/>
+        <circle cx="8" cy="88" r="1" fill="white" opacity="0.4"/>
+      </svg>
     </div>
-
-    <div class="field name-row">
-      <div>
-        <label for="name">Your name <span style="opacity:.5">(optional)</span></label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          placeholder="Anonymous"
-          autocomplete="off"
-        />
-      </div>
-    </div>
-
-    <button type="submit" id="submitBtn">
-      Share my answer <span class="arrow">→</span>
-    </button>
-
-    <p class="status" id="status"></p>
-
-  </form>
-
-  <div class="success-panel" id="successPanel">
-    <h2>Thank you.</h2>
-    <p>Your answer has been recorded.<br>May you live every day closer to it.</p>
+    <div class="tag">⚡ existential crisis loading...</div>
+    <h1>What's your <span class="yellow">purpose</span><br>in <span class="red">life?</span></h1>
+    <p class="subtitle">No pressure. Philosophers have been stuck on this for 3,000 years. You've got, like, 5 minutes.</p>
   </div>
 
-  <p class="footer">github pages · answers stored in this repository</p>
+  <!-- FUNNY CARDS -->
+  <div class="funny-row">
+    <!-- Confused brain -->
+    <div class="funny-card">
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+        <ellipse cx="32" cy="36" rx="20" ry="18" fill="#3a2a4a" stroke="#6a4a8a" stroke-width="1.5"/>
+        <path d="M18 30 Q14 24 20 20 Q24 16 28 22" stroke="#6a4a8a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M46 30 Q50 24 44 20 Q40 16 36 22" stroke="#6a4a8a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M22 40 Q20 46 26 48" stroke="#6a4a8a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M42 40 Q44 46 38 48" stroke="#6a4a8a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <circle cx="32" cy="36" r="7" stroke="#f0c040" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.7"/>
+        <text x="27" y="40" font-size="10" fill="#f0c040" font-family="monospace">…</text>
+      </svg>
+      <p>still loading</p>
+    </div>
+    <!-- Cat with glasses -->
+    <div class="funny-card">
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+        <ellipse cx="32" cy="36" rx="18" ry="16" fill="#2a3040" stroke="#4a5060" stroke-width="1.5"/>
+        <polygon points="16,24 12,10 22,20" fill="#2a3040" stroke="#4a5060" stroke-width="1.5"/>
+        <polygon points="48,24 52,10 42,20" fill="#2a3040" stroke="#4a5060" stroke-width="1.5"/>
+        <rect x="17" y="30" width="12" height="9" rx="4" stroke="#f0c040" stroke-width="1.5" fill="rgba(240,192,64,0.05)"/>
+        <rect x="35" y="30" width="12" height="9" rx="4" stroke="#f0c040" stroke-width="1.5" fill="rgba(240,192,64,0.05)"/>
+        <line x1="29" y1="34" x2="35" y2="34" stroke="#f0c040" stroke-width="1.5"/>
+        <ellipse cx="23" cy="34.5" rx="3" ry="3.5" fill="#0a0a12"/>
+        <ellipse cx="41" cy="34.5" rx="3" ry="3.5" fill="#0a0a12"/>
+        <circle cx="22" cy="33" r="1" fill="white" opacity="0.6"/>
+        <circle cx="40" cy="33" r="1" fill="white" opacity="0.6"/>
+        <polygon points="32,40 30,43 34,43" fill="#e05c3a" opacity="0.7"/>
+        <line x1="28" y1="46" x2="36" y2="46" stroke="#6b6b78" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="14" y1="42" x2="26" y2="43" stroke="#4a5060" stroke-width="1"/>
+        <line x1="38" y1="43" x2="50" y2="42" stroke="#4a5060" stroke-width="1"/>
+      </svg>
+      <p>deep in thought</p>
+    </div>
+    <!-- Shrugging person -->
+    <div class="funny-card">
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+        <circle cx="32" cy="16" r="11" fill="#d4956a" stroke="#b07050" stroke-width="1.5"/>
+        <ellipse cx="28" cy="14" rx="2" ry="2.5" fill="#1a1a22"/>
+        <ellipse cx="36" cy="14" rx="2" ry="2.5" fill="#1a1a22"/>
+        <circle cx="27" cy="13" r="0.8" fill="white" opacity="0.7"/>
+        <circle cx="35" cy="13" r="0.8" fill="white" opacity="0.7"/>
+        <path d="M25 10 Q28 8 31 10" stroke="#b07050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M33 10 Q36 8 39 10" stroke="#b07050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M28 20 Q30 18 32 19 Q34 18 36 20" stroke="#b07050" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <rect x="25" y="28" width="14" height="22" rx="6" fill="#3a5080" stroke="#2a4060" stroke-width="1.5"/>
+        <path d="M25 32 Q14 28 10 22" stroke="#3a5080" stroke-width="5" stroke-linecap="round"/>
+        <path d="M39 32 Q50 28 54 22" stroke="#3a5080" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="10" cy="21" r="4" fill="#d4956a" stroke="#b07050" stroke-width="1.2"/>
+        <circle cx="54" cy="21" r="4" fill="#d4956a" stroke="#b07050" stroke-width="1.2"/>
+        <text x="4" y="14" font-weight="bold" font-size="10" fill="#f0c040" opacity="0.9">?</text>
+        <text x="54" y="14" font-weight="bold" font-size="10" fill="#f0c040" opacity="0.9">?</text>
+      </svg>
+      <p>no clue either</p>
+    </div>
+  </div>
 
+  <!-- FORM CARD -->
+  <div class="form-card" id="formCard">
+    <p class="form-title">
+      <span class="dot"></span>
+      Take a shot at it
+    </p>
+
+    <form id="purposeForm">
+      <div class="field">
+        <label for="answer">Your answer (be honest, no one's grading this)</label>
+        <textarea
+          id="answer"
+          name="answer"
+          placeholder="To eat good food, watch sunsets, and figure out the rest later…"
+          rows="6"
+          required
+          oninput="document.getElementById('charCount').textContent = this.value.length + ' chars'"
+        ></textarea>
+        <p class="char-hint" id="charCount">0 chars</p>
+      </div>
+
+      <div class="field">
+        <label for="name">Your name <span style="opacity:.5">(or stay mysterious)</span></label>
+        <input type="text" id="name" name="name" placeholder="A fellow lost soul" autocomplete="off"/>
+      </div>
+
+      <button type="submit" id="submitBtn">
+        🚀 Send it into the void
+      </button>
+
+      <p class="status" id="status"></p>
+    </form>
+
+    <div class="success-panel" id="successPanel">
+      <span class="big-emoji">🌌</span>
+      <h2>Nicely done, <span>human.</span></h2>
+      <p>Your answer is now part of the universe.<br>
+      (Well, a GitHub repo. Close enough.)<br><br>
+      <span style="color:var(--accent)">May you live every day closer to it.</span></p>
+    </div>
+  </div>
+
+  <p class="footer">github pages · answers stored safely in this repository · no judgment zone</p>
 </div>
 
 <script>
   // ──────────────────────────────────────────────
-  // ★  CONFIGURE THESE THREE VALUES  ★
+  // ★  YOUR CONFIG  ★
   // ──────────────────────────────────────────────
-  const GITHUB_TOKEN  = "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";   // your fine-grained PAT
-  const GITHUB_OWNER  = "tahirdgt27";     // e.g. "johndoe"
-  const GITHUB_REPO   = "purpose-site";           // e.g. "purpose-site"
-  const ANSWERS_FILE  = "https://github.com/tahirdgt27/purpose-site/answer.txt";              // path in the repo
+  const GITHUB_TOKEN = "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";
+  const GITHUB_OWNER = "tahirdgt27";
+  const GITHUB_REPO  = "purpose-site";
+  const ANSWERS_FILE = "answers.txt";  // ✅ FIXED (was incorrectly a full URL before)
   // ──────────────────────────────────────────────
 
-  const form        = document.getElementById("purposeForm");
-  const submitBtn   = document.getElementById("submitBtn");
-  const statusEl    = document.getElementById("status");
+  const form         = document.getElementById("purposeForm");
+  const submitBtn    = document.getElementById("submitBtn");
+  const statusEl     = document.getElementById("status");
   const successPanel = document.getElementById("successPanel");
 
   function setStatus(msg, type = "loading") {
@@ -319,10 +427,7 @@
   async function getFileSHA() {
     const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${ANSWERS_FILE}`;
     const res = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${GITHUB_TOKEN}`,
-        Accept: "application/vnd.github+json"
-      }
+      headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, Accept: "application/vnd.github+json" }
     });
     if (res.status === 404) return { sha: null, content: "" };
     if (!res.ok) throw new Error("Could not read file: " + res.status);
@@ -333,27 +438,13 @@
 
   async function saveAnswer(name, answer) {
     const { sha, content } = await getFileSHA();
-
-    const timestamp = new Date().toISOString();
+    const timestamp   = new Date().toISOString();
     const displayName = name.trim() || "Anonymous";
-    const separator = "─".repeat(60);
-
-    const newEntry =
-      `\n${separator}\n` +
-      `Date:   ${timestamp}\n` +
-      `Name:   ${displayName}\n\n` +
-      `${answer.trim()}\n`;
-
-    const updatedContent = content + newEntry;
-    const encoded = btoa(unescape(encodeURIComponent(updatedContent)));
+    const separator   = "─".repeat(60);
+    const newEntry    = `\n${separator}\nDate:   ${timestamp}\nName:   ${displayName}\n\n${answer.trim()}\n`;
+    const encoded     = btoa(unescape(encodeURIComponent(content + newEntry)));
 
     const url = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${ANSWERS_FILE}`;
-    const body = {
-      message: `New answer from ${displayName}`,
-      content: encoded,
-      ...(sha ? { sha } : {})
-    };
-
     const res = await fetch(url, {
       method: "PUT",
       headers: {
@@ -361,26 +452,22 @@
         Accept: "application/vnd.github+json",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify({
+        message: `New answer from ${displayName}`,
+        content: encoded,
+        ...(sha ? { sha } : {})
+      })
     });
-
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.message || "GitHub API error");
-    }
+    if (!res.ok) { const err = await res.json(); throw new Error(err.message || "GitHub API error"); }
   }
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
     const answer = document.getElementById("answer").value.trim();
     const name   = document.getElementById("name").value.trim();
-
     if (!answer) return;
-
     submitBtn.disabled = true;
-    setStatus("Saving your answer…", "loading");
-
+    setStatus("Launching into the void… 🛸", "loading");
     try {
       await saveAnswer(name, answer);
       setStatus("", "");
@@ -388,11 +475,10 @@
       successPanel.classList.add("visible");
     } catch (err) {
       console.error(err);
-      setStatus("Something went wrong: " + err.message, "error");
+      setStatus("Houston, we have a problem: " + err.message, "error");
       submitBtn.disabled = false;
     }
   });
 </script>
-
 </body>
 </html>
