@@ -30,7 +30,6 @@ body{
   overflow-x:hidden;
 }
 
-/* floating chaos */
 .float-emoji{
   position:fixed;
   font-size:2rem;
@@ -46,7 +45,6 @@ body{
 
 .page{max-width:750px;z-index:2}
 
-/* HERO */
 .hero{text-align:center;margin-bottom:2rem}
 
 .tag{
@@ -61,7 +59,6 @@ h1{font-size:3rem;font-weight:800}
 
 .subtitle{color:var(--muted);margin-top:1rem}
 
-/* POPE TAHIR BANNER */
 .banner{
   background:var(--surface);
   border:1px solid var(--border);
@@ -78,7 +75,6 @@ h1{font-size:3rem;font-weight:800}
   50%{opacity:.5}
 }
 
-/* MEMES */
 .meme-row{
   display:flex;
   gap:1rem;
@@ -114,7 +110,6 @@ h1{font-size:3rem;font-weight:800}
   margin-top:.5rem;
 }
 
-/* FORM */
 .form-card{
   background:var(--surface);
   border:1px solid var(--border);
@@ -153,7 +148,6 @@ button:hover{
   background:#f5d060;
 }
 
-/* success */
 .success-panel{
   display:none;
   text-align:center;
@@ -173,7 +167,6 @@ button:hover{
 
 <body>
 
-<!-- floating emojis -->
 <div class="float-emoji" style="left:10%">👽</div>
 <div class="float-emoji" style="left:25%">🪐</div>
 <div class="float-emoji" style="left:55%">🚀</div>
@@ -188,10 +181,9 @@ button:hover{
   </div>
 
   <div class="banner">
-    😇 POPE TAHIR SYSTEM: “Your existence is being spiritually reviewed… please do not panic.”
+    😇 POPE TAHIR SYSTEM: "Your existence is being spiritually reviewed… please do not panic."
   </div>
 
-  <!-- MEMES BACK 😭 -->
   <div class="meme-row">
 
     <div class="meme-card">
@@ -234,7 +226,7 @@ button:hover{
     <div class="success-panel" id="successPanel">
       <h2>😇 Blessed by Pope Tahir</h2>
       <p style="color:var(--muted)">
-        Your purpose has been accepted into the sacred archive of “we’ll deal with it later.”
+        Your purpose has been accepted into the sacred archive of "we'll deal with it later."
       </p>
     </div>
 
@@ -243,6 +235,10 @@ button:hover{
   <p class="footer">powered by Pope Tahir • memes • existential confusion</p>
 
 </div>
+
+<!-- ✅ Audio element added here — update src to your actual .mp3 file path -->
+<audio id="errorSound" src="error.mp3" preload="auto"></audio>
+
 <script>
 const form = document.getElementById('purposeForm');
 const status = document.getElementById('status');
