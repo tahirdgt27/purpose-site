@@ -132,6 +132,11 @@ input,textarea{
   padding:.8rem;
   margin:1rem 0;
   border-radius:6px;
+  transition: border-color .3s;
+}
+
+input.error, textarea.error {
+  border-color: var(--accent2);
 }
 
 button{
@@ -210,13 +215,14 @@ button:hover{
 
   <div class="form-card">
 
-    <form id="purposeForm">
+    <!-- ✅ novalidate disables browser validation so JS handles it -->
+    <form id="purposeForm" novalidate>
 
       <label>Your Name</label>
-      <input type="text" name="name" placeholder="Disciple of chaos">
+      <input type="text" id="nameInput" name="name" placeholder="Disciple of chaos">
 
       <label>Your Answer</label>
-      <textarea name="answer" required placeholder="To survive, thrive, and occasionally overthink everything..."></textarea>
+      <textarea id="answerInput" name="answer" placeholder="To survive, thrive, and occasionally overthink everything..."></textarea>
 
       <button type="submit" id="submitBtn">🚀 Submit to Pope Tahir</button>
 
@@ -236,7 +242,7 @@ button:hover{
 
 </div>
 
-<!-- ✅ Audio element added here — update src to your actual .mp3 file path -->
+<!-- ✅ Update src to your actual .mp3 filename -->
 <audio id="errorSound" src="error.mp3" preload="auto"></audio>
 
 <script>
@@ -244,37 +250,72 @@ const form = document.getElementById('purposeForm');
 const status = document.getElementById('status');
 const successPanel = document.getElementById('successPanel');
 const errorSound = document.getElementById('errorSound');
+const nameInput = document.getElementById('nameInput');
+const answerInput = document.getElementById('answerInput');
 
 function playErrorSound() {
   errorSound.currentTime = 0;
   errorSound.play().catch(e => console.log("Autoplay blocked:", e));
 }
 
-form.addEventListener('submit', async (e)=>{
+function showError(message) {
+  status.style.color = 'var(--accent2)';
+  status.innerText = message;
+  playErrorSound();
+}
+
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
+  // Clear previous errors
+  nameInput.classList.remove('error');
+  answerInput.classList.remove('error');
+  status.innerText = '';
+
+  // ✅ Manual validation — plays sound on empty fields
+  const nameVal = nameInput.value.trim();
+  const answerVal = answerInput.value.trim();
+
+  if (!nameVal && !answerVal) {
+    nameInput.classList.add('error');
+    answerInput.classList.add('error');
+    showError("❌ Pope Tahir needs your name AND your purpose.");
+    return;
+  }
+
+  if (!nameVal) {
+    nameInput.classList.add('error');
+    showError("❌ Pope Tahir demands to know your name.");
+    return;
+  }
+
+  if (!answerVal) {
+    answerInput.classList.add('error');
+    showError("❌ Pope Tahir rejected your empty purpose.");
+    return;
+  }
+
+  status.style.color = 'var(--muted)';
   status.innerText = "😇 Pope Tahir is judging your existence...";
 
   const data = new FormData(form);
 
-  try{
-    const res = await fetch("https://formspree.io/f/xrergqea",{
-      method:'POST',
-      body:data,
-      headers:{'Accept':'application/json'}
+  try {
+    const res = await fetch("https://formspree.io/f/xrergqea", {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
     });
 
-    if(res.ok){
-      form.style.display="none";
+    if (res.ok) {
+      form.style.display = "none";
       successPanel.classList.add("visible");
     } else {
-      status.innerText="❌ Pope Tahir rejected your purpose.";
-      playErrorSound();
+      showError("❌ Pope Tahir rejected your purpose.");
     }
 
-  }catch(err){
-    status.innerText="📡 Divine connection failed.";
-    playErrorSound();
+  } catch (err) {
+    showError("📡 Divine connection failed.");
   }
 });
 </script>
